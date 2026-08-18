@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
 import ClientEffects from "@/components/effects/ClientEffects";
 import { Locale } from "@/lib/dictionary";
+import MusicPlayer from "@/components/MusicPlayer";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -14,22 +15,22 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://deftvalian.vercel.app"),
   title: {
-    default: "Deft Valian Exanova | Fullstack Developer",
-    template: "%s | Deft Valian Exanova",
+    default: "Charlee | Web Developer",
+    template: "%s | Charlee ",
   },
   description:
     "Website portofolio personal Fullstack Developer yang colorful dan interaktif.",
   openGraph: {
-    title: "Deft Valian Exanova | Fullstack Developer",
-    description: "Portofolio interaktif dan modern dari seorang Fullstack Developer.",
+    title: "Charlee | Web Developer",
+    description: "Portofolio interaktif dan modern dari seorang Web Developer.",
     url: "/",
-    siteName: "Deft Valian Exanova",
+    siteName: "Charlee Kimlee",
     images: [
       {
         url: "/images/hero.webp",
         width: 1200,
         height: 630,
-        alt: "Deft Valian Exanova Portfolio Thumbnail",
+        alt: "Charlee Kimlee Portfolio Thumbnail",
       },
     ],
     locale: "id_ID",
@@ -37,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Deft Valian Exanova | Fullstack Developer",
-    description: "Portofolio interaktif dan modern dari seorang Fullstack Developer.",
+    title: "Charlee | Web Developer",
+    description: "Portofolio interaktif dan modern dari seorang Web Developer.",
     images: ["/images/hero.webp"],
   },
 };
@@ -60,6 +61,8 @@ export default async function RootLayout({
       >
         <Preloader />
         <ClientEffects />
+        <MusicPlayer />
+        
 
         {/* 2. PERUBAHAN DISINI: Tambahkan 'as Locale' agar komponen Navbar tetap aman */}
         <Navbar locale={locale as Locale} />

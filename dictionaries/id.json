@@ -6,7 +6,7 @@
   },
   "hero": {
     "greeting": "Halo, Saya",
-    "role": "Fullstack Developer",
+    "role": "Web Developer",
     "tagline": "Membangun aplikasi web yang fungsional, interaktif, dan berpusat pada pengalaman pengguna.",
     "ctaProjects": "Lihat Proyek",
     "ctaContact": "Hubungi Saya"
@@ -14,9 +14,9 @@
   "about": {
     "sectionTitle": "ABOUT ME",
     "greeting": "SAYA",
-    "name": "DEFT VALIAN",
-    "role": "FULLSTACK DEVELOPER",
-    "bio": "Sebagai lulusan Sistem Informasi dan Software Engineer, saya berfokus mengubah kebutuhan bisnis yang kompleks menjadi aplikasi web yang efisien.\n\nDari digitalisasi alur kerja operasional hingga perancangan arsitektur frontend, saya menikmati proses membangun solusi full-stack dari nol yang terukur dan memberikan dampak nyata.",
+    "name": "CHARLEE",
+    "role": "WEB DEVELOPER",
+    "bio": "Sebagai Mahasiswa Teknik Informatika dan Software Engineer, saya berfokus mengubah kebutuhan bisnis yang kompleks menjadi aplikasi web yang efisien.\n\nDari digitalisasi alur kerja operasional hingga perancangan arsitektur frontend, saya menikmati proses membangun solusi full-stack dari nol yang terukur dan memberikan dampak nyata.",
     "downloadCv": "UNDUH CV"
   },
   "skills": {
@@ -29,30 +29,53 @@
     "technologiesLabel": "Teknologi yang Digunakan",
     "list": [
       {
-        "company": "PT Advics Manufacturing Indonesia",
-        "role": "Fullstack Developer",
-        "period": "Aug 2025 - Feb 2026",
-        "location": "Karawang, Indonesia",
+        "company": "Franchise Momoyo Wilayah Cianjur",
+        "role": "Fullstack Developer (Kerja Praktek)",
+        "period": "Feb 2026 - Jun 2026",
+        "location": "Cianjur, Indonesia",
         "description": [
-          "Menggantikan proses manual dengan membangun Sistem NG Scanning (integrasi QR) dan otomatisasi pipeline dokumen Scrap Evidence.",
-          "Membangun aplikasi inti yang scalable (Sistem Warehouse, Manajemen Aset IT, dan Help Desk) menggunakan ekosistem Laravel dan ReactJS.",
-          "Mengelola ribuan data secara konkuren dengan kecepatan tinggi menggunakan teknik seperti lazy loading pada lingkungan sistem yang berat.",
-          "Merombak antarmuka lama menggunakan Tailwind CSS, menciptakan aplikasi yang responsif dan intuitif bagi eksekutif kantor maupun staf lapangan."
+          "Membangun sistem payroll berbasis web yang terintegrasi dengan evaluasi KPI untuk 2 cabang (Ciranjang & Sukaluyu).",
+          "Merancang struktur role Owner, Manager, dan Kepala Cabang dengan hak akses yang berbeda menggunakan Laravel Gate.",
+          "Mengembangkan sistem KPI dengan 3 indikator terukur: Kehadiran (otomatis), Kedisiplinan, dan Kontribusi Penjualan.",
+          "Membuat modul laporan gaji dengan ekspor PDF menggunakan DomPDF."
         ],
-        "technologies": ["Laravel", "ReactJS", "Tailwind CSS", "MySQL", "PostgreSQL"]
+        "technologies": ["Laravel 11", "MySQL", "Tailwind CSS", "PostgreSQL"]
       },
       {
-        "company": "Vocasia",
-        "role": "Frontend Developer",
-        "period": "Jan 2025 - Jun 2025",
-        "location": "Remote",
+        "company": "KKN Desa Ciharashas, Cianjur",
+        "role": "Fullstack Developer",
+        "period": "2026",
+        "location": "Cianjur, Indonesia",
         "description": [
-          "Mengubah desain kompleks menjadi komponen web yang responsif, mobile-first, dan kompatibel di berbagai browser.",
-          "Menyelesaikan 8+ tugas frontend berskala besar menggunakan framework modern untuk meningkatkan fitur dan kapabilitas platform.",
-          "Terlibat aktif dalam sprint teknis mingguan dan rapat sinkronisasi untuk menyelaraskan alur pengembangan dengan target bisnis.",
-          "Meraih Sertifikat Penghargaan atas konsistensi dalam menghasilkan kode yang bersih (clean code) dan selesai lebih cepat dari tenggat waktu."
+          "Membangun website desa berbasis Laravel 11 untuk mendukung program Kuliah Kerja Nyata (KKN).",
+          "Mengembangkan modul publik & admin untuk profil desa, agenda kegiatan, galeri, dan artikel berita.",
+          "Merancang migration dan model database untuk struktur data desa yang scalable."
         ],
-        "technologies": ["NextJS", "TypeScript", "Tailwind CSS", "Gitlab", "Figma"]
+        "technologies": ["Laravel 11", "MySQL", "Tailwind CSS"]
+      },
+      {
+        "company": "Distro Block Label",
+        "role": "Collaborator - Fullstack Developer",
+        "period": "2026",
+        "location": "Indonesia",
+        "description": [
+          "Membangun sistem POS (Point of Sale) dan manajemen inventory berbasis Laravel 11.",
+          "Mengimplementasikan update data real-time menggunakan AJAX untuk transaksi kasir.",
+          "Merancang sistem autentikasi multi-role untuk memisahkan akses kasir dan admin."
+        ],
+        "technologies": ["Laravel 11", "MySQL", "AJAX", "Tailwind CSS"]
+      },
+      {
+        "company": "Tugas Akademik - Universitas Suryakancana",
+        "role": "Game Developer",
+        "period": "2025",
+        "location": "Cianjur, Indonesia",
+        "description": [
+          "Mengembangkan 'Nexus Breach', game top-down shooter cyberpunk dengan HTML5 Canvas, dilengkapi pathfinding A* dan sistem musuh berbasis Finite State Machine (FSM).",
+          "Mengembangkan 'Forest Shadows', game stealth-puzzle dengan karakter rubah, menggunakan AI penjaga berbasis vision cone dan patroli waypoint A*.",
+          "Membuat musik prosedural menggunakan Web Audio API untuk kedua game."
+        ],
+        "technologies": ["JavaScript", "HTML5 Canvas", "Web Audio API"]
       }
     ]
   },

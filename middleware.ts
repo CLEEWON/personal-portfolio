@@ -41,6 +41,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|projects|images|content|audio|CV-DeftValianExanova.pdf).*)",
+    "/((?!api|_next/static|_next/image|projects|images|content|audio|.*\\..*).*)",
   ],
 };

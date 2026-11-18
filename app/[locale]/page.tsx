@@ -7,7 +7,18 @@ import Projects from "@/components/Projects"; // <-- Import Komponen Projects Ba
 import Contact from "@/components/Contact";
 import { getAllProjects } from "@/lib/mdx";
 import { getDictionary } from "@/lib/dictionary";
+import type { Metadata } from "next";
+import { getAlternates, type Locale } from "@/lib/seo";
 
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: getAlternates(locale, "") };
+}
 export default async function Home({ params }: { params: any }) {
   const resolvedParams = await params;
   const locale = resolvedParams?.locale || "id";
@@ -42,4 +53,6 @@ export default async function Home({ params }: { params: any }) {
       
     </div>
   );
+
 }
+

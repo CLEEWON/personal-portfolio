@@ -2,7 +2,12 @@ import Hero from "@/components/Hero";
 import { getAllProjects } from "@/lib/mdx";
 import ProjectCard from "@/components/ProjectCard";
 import { getDictionary } from "@/lib/dictionary";
+import type { Metadata } from "next";
+import { getAlternates, type Locale } from "@/lib/seo";
 
+export async function generateMetadata({ params }: { params: { locale: Locale; slug: string } }): Promise<Metadata> {
+  return { alternates: getAlternates(params.locale, `/projects/${params.slug}`) };
+}
 // Gunakan 'any' pada params agar aman & kompatibel di Next.js 14 maupun Next.js 15
 export default async function Home({ params }: { params: any }) {
   // Trik universal: await tetap aman digunakan walaupun params ternyata objek sync

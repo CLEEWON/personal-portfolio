@@ -10,25 +10,39 @@ import { getDictionary } from "@/lib/dictionary";
 import type { Metadata } from "next";
 import { getAlternates, type Locale } from "@/lib/seo";
 
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return { alternates: getAlternates(locale, "") };
+
+  const titles: Record<Locale, string> = {
+    id: "Charlee — Web Developer | Portofolio & Proyek Fullstack",
+    en: "Charlee — Web Developer | Portfolio & Projects",
+  };
+
+  const descriptions: Record<Locale, string> = {
+    id: "Portofolio Charlee, Web Developer yang membangun aplikasi web fungsional, interaktif, dan user-centric dengan Laravel 11 & MySQL.",
+    en: "Portfolio of Charlee, a Web Developer building functional, interactive, and user-centric web applications with Laravel 11 & MySQL.",
+  };
+
+  return {
+    title: titles[locale],
+    description: descriptions[locale],
+    alternates: getAlternates(locale, ""),
+  };
 }
-export default async function Home({ params }: { params: any }) {
+
+export default async function Home({ params }: { params: Promise<{ locale: Locale }> }) {
   const resolvedParams = await params;
   const locale = resolvedParams?.locale || "id";
   
   const dict = (await getDictionary(locale)) as any;
   const projects = getAllProjects(locale);
-
+ 
   return (
     <div className="space-y-28 pb-20">
-      
       {/* 1. Hero / Home Section */}
       {dict?.hero && <Hero dict={dict.hero} />}
 
@@ -50,9 +64,6 @@ export default async function Home({ params }: { params: any }) {
 
       {/* 7. Contact Section */}
       {dict?.contact && <Contact dict={dict.contact} />}
-      
     </div>
   );
-
 }
-

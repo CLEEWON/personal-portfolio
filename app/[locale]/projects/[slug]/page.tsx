@@ -1,60 +1,127 @@
-import Hero from "@/components/Hero"; 
-import { getAllProjects } from "@/lib/mdx";
-import ProjectCard from "@/components/ProjectCard";
+import { getProjectBySlug, getProjectSlugs } from "@/lib/mdx";
 import { getDictionary } from "@/lib/dictionary";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAlternates, type Locale } from "@/lib/seo";
+import { getAlternates, locales, type Locale } from "@/lib/seo";
 
-export async function generateMetadata({ params }: { params: { locale: Locale; slug: string } }): Promise<Metadata> {
-  return { alternates: getAlternates(params.locale, `/projects/${params.slug}`) };
+// Pre-render semua halaman project (per locale) pas build time
+export async function generateStaticParams() {
+  const params: { locale: Locale; slug: string }[] = [];
+
+  for (const locale of locales) {
+    const slugs = getProjectSlugs(locale);
+    for (const slug of slugs) {
+      params.push({ locale, slug });
+    }
+  }
+
+  return params;
 }
-// Gunakan 'any' pada params agar aman & kompatibel di Next.js 14 maupun Next.js 15
-export default async function Home({ params }: { params: any }) {
-  // Trik universal: await tetap aman digunakan walaupun params ternyata objek sync
-  const resolvedParams = await params;
-  const locale = resolvedParams?.locale || "id";
-  
-  // Ambil data bahasa dan cast sebagai 'any' agar TypeScript tidak protes saat membaca properti JSON
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const project = getProjectBySlug(slug, locale);
+
+  if (!project) {
+    return {
+      title: locale === "id" ? "Proyek Tidak Ditemukan" : "Project Not Found",
+    };
+  }
+
+  return {
+    title: `${project.meta.title ?? slug} — Charlee`,
+    description: project.meta.description,
+    alternates: getAlternates(locale, `/projects/${slug}`),
+  };
+}
+
+export default async function ProjectDetailPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  const project = getProjectBySlug(slug, locale);
+
+  // Kalau slug nggak ketemu di content/<locale>/, langsung 404 —
+  // jangan biarin halaman kosong atau nge-render apa-apa secara diam-diam
+  if (!project) {
+    notFound();
+  }
+
   const dict = (await getDictionary(locale)) as any;
-  const projects = getAllProjects(locale);
+  const labels = dict?.projects?.drawer ?? {};
+  const { meta, content } = project;
 
   return (
-    <div className="space-y-28 pb-20">
-      {/* Pastikan objek dict.hero tersedia sebelum di-render */}
-      {dict?.hero && <Hero dict={dict.hero} />}
+    <article className="py-10 max-w-3xl mx-auto">
+      <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+        {meta.title}
+      </h1>
 
-      {/* Section Daftar Proyek */}
-      <section id="projects" className="scroll-mt-28">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-3 text-brand-text">
-            {dict?.projects?.title} <span className="text-brand-purple">{dict?.projects?.accent}</span>.
-          </h2>
-          <p className="text-brand-text/60 font-medium max-w-md mx-auto text-lg">
-            {dict?.projects?.subtitle}
-          </p>
+      {meta.image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={meta.image}
+          alt={meta.title ?? slug}
+          className="w-full rounded-xl mb-6"
+        />
+      )}
+
+      {meta.description && (
+        <p className="text-brand-text/70 text-lg mb-6">{meta.description}</p>
+      )}
+
+      {meta.tech && meta.tech.length > 0 && (
+        <div className="mb-8">
+          <p className="text-sm font-semibold mb-2">{labels.techStack}</p>
+          <div className="flex flex-wrap gap-2">
+            {meta.tech.map((t: string) => (
+              <span
+                key={t}
+                className="px-3 py-1 rounded-full bg-brand-purple/10 text-brand-purple text-sm font-medium"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
+      )}
 
-        {/* Grid Proyek Terlokalisasi */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard 
-              key={project.slug} 
-              project={project as any} // Cast sebagai 'any' untuk meredam perbedaan tipe data internal komponen
-              index={index} 
-            />
-          ))}
-        </div>
-      </section>
+      <div className="flex gap-4 mb-10">
+        {meta.liveUrl && (
+          <a
+            href={meta.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-lg bg-brand-purple text-white font-medium"
+          >
+            {labels.viewLive}
+          </a>
+        )}
+        {meta.githubUrl && (
+          <a
+            href={meta.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-lg border border-brand-purple text-brand-purple font-medium"
+          >
+            {labels.sourceCode}
+          </a>
+        )}
+      </div>
 
-      {/* Section Kontak */}
-      <section id="contact" className="min-h-[30vh] flex flex-col items-center justify-center text-center pb-20 scroll-mt-28">
-          <h3 className="text-2xl font-bold text-brand-text/70 mb-4">
-            {locale === "id" ? "Ingin berkolaborasi?" : "Interested in collaborating?"}
-          </h3>
-          <p className="text-lg text-brand-text/50 font-medium max-w-lg">
-            {locale === "id" ? "Section kontak sedang dalam pengembangan." : "The contact section is currently under development."}
-          </p>
-      </section>
-    </div>
+      {/* CATATAN: ini masih render teks mentah dari body MDX (whitespace-pre-wrap).
+          Belum ada markdown renderer, jadi heading/bold/list di body .mdx
+          belum bakal ke-render sebagai format, cuma teks polos.
+          Kalau mau itu jalan beneran, tambahin library kayak react-markdown nanti. */}
+      <div className="prose prose-invert whitespace-pre-wrap text-brand-text/80">
+        {content}
+      </div>
+    </article>
   );
 }

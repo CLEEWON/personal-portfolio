@@ -1,20 +1,11 @@
 import type { MetadataRoute } from "next";
+import { getProjectSlugs } from "@/lib/mdx";
 
 const baseUrl = "https://charleesportfolio.vercel.app";
-const locales = ["id", "en"];
+const locales = ["id", "en"] as const;
 
-// Halaman statis yang beneran punya route sendiri — sesuaikan kalau nambah/ganti
+// Halaman statis yang beneran punya route sendiri
 const staticRoutes = ["", "/projects"];
-
-// CATATAN: entry per-slug project (/projects/momoyo-hris, dst) sengaja
-// DIHAPUS dulu dari sitemap. Soalnya app/[locale]/projects/[slug]/page.tsx
-// saat ini masih render listing yang sama kayak /projects (belum ada logic
-// buat nampilin 1 project spesifik berdasarkan slug). Submit URL itu ke
-// Google sekarang = ngirim sinyal duplicate content.
-//
-// Begitu halaman detail per-slug beneran jadi (pake params.slug buat
-// nyari 1 project & notFound() kalau nggak ketemu), tambahin lagi loop
-// project di bawah ini.
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
@@ -26,6 +17,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(),
         changeFrequency: "monthly",
         priority: route === "" ? 1 : 0.8,
+      });
+    }
+
+    // Sekarang halaman detail [slug] beneran ada, jadi aman dimasukin lagi.
+    // Slug ditarik otomatis dari folder content/<locale>/ — bukan hardcode,
+    // biar sitemap otomatis update kalau nambah/hapus project.
+    const slugs = getProjectSlugs(locale);
+    for (const slug of slugs) {
+      entries.push({
+        url: `${baseUrl}/${locale}/projects/${slug}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.7,
       });
     }
   }

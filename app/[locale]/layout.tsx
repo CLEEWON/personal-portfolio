@@ -6,6 +6,7 @@ import Preloader from "@/components/Preloader";
 import ClientEffects from "@/components/effects/ClientEffects";
 import { Locale } from "@/lib/dictionary";
 import MusicPlayer from "@/components/MusicPlayer";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -70,6 +71,7 @@ export default async function RootLayout({
         <main className="pt-14 min-h-screen px-6 md:px-12 max-w-6xl mx-auto w-full overflow-x-hidden">
           {children}
         </main>
+        <GoogleAnalytics gaId="G-6QE3L695P3" />
       </body>
     </html>
   );
